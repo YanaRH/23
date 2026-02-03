@@ -1,12 +1,15 @@
-from decouple import config
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 from decouple import config
+
+# Загружаем переменные из .env файла
+load_dotenv()
 
 # Базовая директория проекта
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Безопасный ключ (для примера, в реальном проекте храните в .env)
+# Безопасный ключ
 SECRET_KEY = config('SECRET_KEY', default='your-secret-key')
 
 # Режим отладки
@@ -22,7 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'catalog',  # ваше приложение
+    'catalog',  # Ваше приложение
 ]
 
 MIDDLEWARE = [
@@ -35,12 +38,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'your_project.urls'
+ROOT_URLCONF = 'myproject.urls'  # Замените 'myproject' на имя вашей папки с urls.py
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # если есть шаблоны
+        'DIRS': [],  # Оставьте пустым для app-specific шаблонов
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -53,17 +56,17 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'your_project.wsgi.application'
+WSGI_APPLICATION = 'myproject.wsgi.application'  # Замените 'myproject' на имя вашей папки с wsgi.py
 
-# Подключение к PostgreSQL через python-decouple
+# База данных
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('POSTGRES_DB'),
-        'USER': config('POSTGRES_USER'),
-        'PASSWORD': config('POSTGRES_PASSWORD'),
-        'HOST': config('POSTGRES_HOST', default='localhost'),
-        'PORT': config('POSTGRES_PORT', default='5432'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        'USER': config('POSTGRES_USER', default='myuser'),
+        'PASSWORD': config('POSTGRES_PASSWORD', default='mypassword'),
+        'HOST': config('DB_HOST', default='db'),  # 'db' для Docker, 'localhost' для локального
+        'PORT': config('DB_PORT', default='5432'),
     }
 }
 
@@ -91,11 +94,17 @@ USE_TZ = True
 
 # Статические файлы
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Медиа файлы
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# Media files (user-uploaded files)
+MEDIA_URL = '/http://127.0.0.1:8000/media/image.jpg/'  # URL prefix for media files
+MEDIA_ROOT = BASE_DIR / 'media'  # Directory where media files are stored (create this folder if it doesn't exist)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Отладочный print (удалите после тестирования)
+print("POSTGRES_DB:", os.environ.get('POSTGRES_DB'))
+print("Env loaded:", load_dotenv())
+
+
 

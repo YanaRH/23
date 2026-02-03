@@ -1,25 +1,16 @@
-from catalog.models import Category, Product
+#!/usr/bin/env python
+"""Django's command-line utility for administrative tasks."""
+import os
+import sys
 
-# Создание категорий
-cat1 = Category.objects.create(name='Электроника', description='Электронные устройства')
-cat2 = Category.objects.create(name='Книги', description='Различные книги')
-
-# Создание продуктов
-prod1 = Product.objects.create(name='Смартфон', description='Современный смартфон', category=cat1, price=25000)
-prod2 = Product.objects.create(name='Ноутбук', description='Мощный ноутбук', category=cat1, price=55000)
-
-# Получить все категории
-print(Category.objects.all())
-
-# Получить все продукты
-print(Product.objects.all())
-
-# Найти продукты в категории "Электроника"
-print(Product.objects.filter(category=cat1))
-
-# Обновить цену продукта
-prod1.price = 26000
-prod1.save()
-
-# Удалить продукт
-prod2.delete()
+if __name__ == '__main__':
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject.settings')
+    try:
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
+    execute_from_command_line(sys.argv)
