@@ -11,7 +11,7 @@ class Command(BaseCommand):
         Product.objects.all().delete()
         Category.objects.all().delete()
 
-        fixtures_dir = os.path.join('catalog', 'fixtures')
+        fixtures_dir = os.path.join('fixtures')
 
         categories_path = os.path.join(fixtures_dir, 'categories.json')
         products_path = os.path.join(fixtures_dir, 'products.json')

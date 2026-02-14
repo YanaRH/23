@@ -1,15 +1,17 @@
-
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings  # Add this import
-from django.conf.urls.static import static  # Add this import
+from django.conf import settings
+from django.conf.urls.static import static
+from django.shortcuts import redirect
+
+def home_view(request):
+    return redirect('catalog:index')  # Теперь будет работать
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Add your other URL patterns here, e.g.:
-    # path('', include('your_app.urls')),
+    path('catalog/', include('catalog.urls', namespace='catalog')),  # Добавьте namespace
+    path('', home_view, name='home'),
 ]
 
-# Serve media files during development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

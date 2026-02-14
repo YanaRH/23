@@ -3,8 +3,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from decouple import config
 
-# Загружаем переменные из .env файла
-load_dotenv()
+load_dotenv()  # Загружаем переменные из .env файла
 
 # Базовая директория проекта
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,13 +37,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'myproject.urls'  # Замените 'myproject' на имя вашей папки с urls.py
+ROOT_URLCONF = 'myproject.urls'  # Имя вашей папки с urls.py
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # Оставьте пустым для app-specific шаблонов
-        'APP_DIRS': True,
+        'DIRS': [],
+        'APP_DIRS': True,  # Должно быть True для поиска в catalog/templates/
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -56,19 +55,27 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'myproject.wsgi.application'  # Замените 'myproject' на имя вашей папки с wsgi.py
+WSGI_APPLICATION = 'myproject.wsgi.application'  # Имя вашей папки с wsgi.py
 
-# База данных
+# База данных (SQLite для простоты; замените на PostgreSQL, если нужно)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-        'USER': config('POSTGRES_USER', default='myuser'),
-        'PASSWORD': config('POSTGRES_PASSWORD', default='mypassword'),
-        'HOST': config('DB_HOST', default='db'),  # 'db' для Docker, 'localhost' для локального
-        'PORT': config('DB_PORT', default='5432'),
     }
 }
+
+# Если нужно PostgreSQL (замените блок выше на этот):
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('POSTGRES_DB'),
+#         'USER': config('POSTGRES_USER'),
+#         'PASSWORD': config('POSTGRES_PASSWORD'),
+#         'HOST': config('DB_HOST', default='localhost'),
+#         'PORT': config('DB_PORT', default='5432'),
+#     }
+# }
 
 # Пароли
 AUTH_PASSWORD_VALIDATORS = [
@@ -97,14 +104,13 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Media files (user-uploaded files)
-MEDIA_URL = '/http://127.0.0.1:8000/media/image.jpg/'  # URL prefix for media files
-MEDIA_ROOT = BASE_DIR / 'media'  # Directory where media files are stored (create this folder if it doesn't exist)
+MEDIA_URL = '/media/'  # URL prefix for media files
+MEDIA_ROOT = BASE_DIR / 'media'  # Directory where media files are stored
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Отладочный print (удалите после тестирования)
-print("POSTGRES_DB:", os.environ.get('POSTGRES_DB'))
-print("Env loaded:", load_dotenv())
-
+# print("POSTGRES_DB:", os.environ.get('POSTGRES_DB'))
+# print("Env loaded:", load_dotenv())
 
 
