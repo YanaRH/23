@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>Каталог</title>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
 </head>
 <body>
-    <h1>Добро пожаловать в каталог!</h1>
-    <p>Здесь будет список товаров.</p>
+    <h1>Добро пожаловать!</h1>
+
+    <h2>Последние товары:</h2>
+    {% if latest_products %}
+        <ul>
+        {% for product in latest_products %}
+            <li>
+                <h3>{{ product.name }}</h3>
+                <p>Цена: {{ product.price }} руб.</p>
+                <p>Категория: {{ product.category.name }}</p>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Товаров пока нет.</p>
+    {% endif %}
+
+    <h2>Категории:</h2>
+    <ul>
+    {% for category in categories %}
+        <li>{{ category.name }}</li>
+    {% endfor %}
+    </ul>
 </body>
 </html>

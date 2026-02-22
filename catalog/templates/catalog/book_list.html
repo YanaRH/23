@@ -2,22 +2,34 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Контакты</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { color: #333; }
-        ul { list-style-type: none; padding: 0; }
-        li { margin: 5px 0; }
-    </style>
+    <title>Список товаров</title>
 </head>
 <body>
-    <h1>Наши контакты</h1>
-    <p>Свяжитесь с нами:</p>
-    <ul>
-        <li>Email: example@example.com</li>
-        <li>Телефон: +7 (123) 456-78-90</li>
-    </ul>
-    <a href="{% url 'index' %}">Вернуться на главную</a>  <!-- Замените 'index' на имя вашего URL, если отличается -->
+    <h1>Все товары</h1>
+
+    {% if products %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Категория</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }} руб.</td>
+                    <td>{{ product.category.name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Товаров пока нет.</p>
+    {% endif %}
+
+    <a href="{% url 'catalog:index' %}">На главную</a>
 </body>
 </html>

@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "myproject"
+version = "0.1.0"
+description = "Django project with PostgreSQL, models, and fixtures"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{include = "myproject"}]
+
+[tool.poetry.dependencies]
+python = "^3.12.3"
+django = "^4.2"
+djangorestframework = "^3.14"
+psycopg2-binary = "^2.9"  # Для PostgreSQL
+pillow = "^10.0"  # Для медиаданных
+environs = "^10.3"
+python-dotenv = "^1.0"
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.15"  # Для Shell
+pytest = "^7.4"
+black = "^23.7"
+flake8 = "^6.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

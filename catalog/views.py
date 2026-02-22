@@ -1,9 +1,26 @@
 from django.shortcuts import render
+from .models import Product, Category
+
 
 def index(request):
-    # Отображает главную страницу
-    return render(request, 'catalog/index.html')
+    """Главная страница - показывает последние 5 продуктов."""
+    latest_products = Product.objects.order_by('-created_at')[:5]
+    categories = Category.objects.all()
+
+    context = {
+        'latest_products': latest_products,
+        'categories': categories,
+    }
+    return render(request, 'catalog/index.html', context)
+
 
 def book_list(request):
-    # Отображает страницу контактов или списка книг (замените на свою логику)
-    return render(request, 'catalog/book_list.html')
+    """Страница со списком всех продуктов."""
+    products = Product.objects.all()
+    categories = Category.objects.all()
+
+    context = {
+        'products': products,
+        'categories': categories,
+    }
+    return render(request, 'catalog/book_list.html', context)
